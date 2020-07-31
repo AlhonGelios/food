@@ -80,11 +80,11 @@
     display: none;
 }
 .fade {
-    animation-duration: 1.5s;
+    animation: fade 1.5s;
 }
 @keyframes fade {
-    from 
+    from
         {opacity: 0.1}
-    to 
+    to
         {opacity: 1}
 }
