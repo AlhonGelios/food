@@ -114,11 +114,7 @@ window.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = 'hidden';
     } 
 
-<<<<<<< HEAD
     //hideModal(modal);
-=======
-    hideModal(modal);
->>>>>>> master
 
     modalTrigger.forEach(item => {
         item.addEventListener('click', () => {
@@ -141,4 +137,5 @@ window.addEventListener('DOMContentLoaded', () => {
             hideModal(modal);
         }
     });
+    // hello github
 });
