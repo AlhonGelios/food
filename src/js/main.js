@@ -146,7 +146,7 @@ window.addEventListener('DOMContentLoaded', () => {
 //    const modalTimerId = setTimeout(showModal, 3000);
     
     function showModalByScroll() {
-        if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+        if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
             showModal(modal);
             window.removeEventListener('scroll', showModalByScroll);
         }
