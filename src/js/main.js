@@ -138,6 +138,7 @@ window.addEventListener('DOMContentLoaded', () => {
             hideModal(modal);
         }
     });
+<<<<<<< Updated upstream
 
     const modalTimerId = setTimeout(showModal, 3000);
     
@@ -149,4 +150,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     window.addEventListener('scroll', showModalByScroll);
+=======
+>>>>>>> Stashed changes
 });
