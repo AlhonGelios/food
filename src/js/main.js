@@ -103,8 +103,7 @@ window.addEventListener('DOMContentLoaded', () => {
     //modal
 
     const   modalTrigger = document.querySelectorAll('[data-modal]'),
-            modal = document.querySelector('.modal'),
-            modalCloseBtn = document.querySelector('[data-close]');
+            modal = document.querySelector('.modal');
     
     function hideModal(itemModal = modal) {
         itemModal.classList.add('hide');
@@ -126,13 +125,9 @@ window.addEventListener('DOMContentLoaded', () => {
             showModal(modal);
         });
     });
-    
-    modalCloseBtn.addEventListener('click', () => {
-        hideModal(modal);
-    });
 
     modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
+        if (e.target === modal || e.target.getAttribute('data-close') == '') {
             hideModal(modal);
         }
     });
@@ -143,7 +138,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-//    const modalTimerId = setTimeout(showModal, 3000);
+    const modalTimerId = setTimeout(showModal, 50000);
     
     function showModalByScroll() {
         if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
@@ -236,8 +231,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const forms= document.querySelectorAll('form');
 
-    const massage = {
-        loading : 'Загрузка',
+    const message = {
+        loading : 'img/form/spinner.svg',
         success : 'Спасибо мы с Вами свяжемся',
         failure : 'Что-то пошло не так...'
     };
@@ -250,10 +245,13 @@ window.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', (e)=> {
             e.preventDefault();
 
-            const statusMassage = document.createElement('div');
-            statusMassage.classList.add('status');
-            statusMassage.textContent = massage.loading;
-            form.append(statusMassage);
+            const statusmessage = document.createElement('img');
+            statusmessage.src = message.loading;
+            statusmessage.style.cssText = `
+                display: block;
+                margin: 0 auto;
+            `;
+            form.insertAdjacentElement('afterend', statusmessage);
 
             const request = new XMLHttpRequest();
             request.open('POST', 'server.php');
@@ -272,15 +270,39 @@ window.addEventListener('DOMContentLoaded', () => {
             request.addEventListener('load', () => {
                 if (request.status === 200) {
                     console.log(request.response);
-                    statusMassage.textContent = massage.success;
+                    showThanksModal(message.success);
                     form.reset();
-                    setTimeout(() => {
-                        statusMassage.remove();
-                    }, 2000);
+                    statusmessage.remove();
                 } else {
-                    statusMassage.textContent = massage.failure;
+                    showThanksModal(message.failure);
                 }
             });
         });
+    }
+
+
+    function showThanksModal(message) {
+        const prevModalDialog = document.querySelector('.modal__dialog');
+
+        prevModalDialog.classList.add('hide');
+        showModal();
+
+        const thanksModal = document.createElement('div');
+        thanksModal.classList.add('modal__dialog');
+        thanksModal.innerHTML = `
+            <div class="modal__content">
+                <div class = "modal__close" data-close>&times;</div>
+                <div class = "modal__title">${message}</div>
+            </div>
+        `;
+
+        document.querySelector('.modal').append(thanksModal);
+
+        setTimeout(() =>{
+            thanksModal.remove();
+            prevModalDialog.classList.add('show');
+            prevModalDialog.classList.remove('hide');
+            hideModal();
+        },4000);
     }
 });
