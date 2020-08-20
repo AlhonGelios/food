@@ -1,13 +1,13 @@
 window.addEventListener('DOMContentLoaded', () => {
     //Tabs
-    const   tabs = document.querySelectorAll(".tabheader__item"),
-            tabsContent = document.querySelectorAll(".tabcontent"),
-            tabsParent = document.querySelector(".tabheader__items");
+    const tabs = document.querySelectorAll(".tabheader__item"),
+        tabsContent = document.querySelectorAll(".tabcontent"),
+        tabsParent = document.querySelector(".tabheader__items");
 
     function hideTabContent() {
         tabsContent.forEach(item => {
             item.classList.add('hide');
-            item.classList.remove('show' , 'fade');
+            item.classList.remove('show', 'fade');
         });
         tabs.forEach(item => {
             item.classList.remove('tabheader__item_active');
@@ -27,7 +27,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const target = event.target;
 
         if (target && target.classList.contains('tabheader__item')) {
-            tabs.forEach((item , i) => {
+            tabs.forEach((item, i) => {
                 if (target == item) {
                     hideTabContent();
                     showTabContent(i);
@@ -38,21 +38,21 @@ window.addEventListener('DOMContentLoaded', () => {
 
     //Timer
 
-    const deadline = '2020-08-06T16:00';
+    const deadline = '2020-08-30T16:00';
 
     function getTimeRemaining(endtime) {
-        const   t = Date.parse(endtime) - Date.parse(new Date()),
-                days = Math.floor(t / (1000*60*60*24)),
-                hours = Math.floor((t / (1000*60*60)) % 24),
-                minutes = Math.floor((t / (1000*60)) % 60),
-                seconds = Math.floor((t / 1000) % 60);
-        
+        const t = Date.parse(endtime) - Date.parse(new Date()),
+            days = Math.floor(t / (1000 * 60 * 60 * 24)),
+            hours = Math.floor((t / (1000 * 60 * 60)) % 24),
+            minutes = Math.floor((t / (1000 * 60)) % 60),
+            seconds = Math.floor((t / 1000) % 60);
+
         return {
-            'total' : t,
-            'days' : days,
-            'hours' : hours,
-            'minutes' : minutes,
-            'seconds' : seconds
+            'total': t,
+            'days': days,
+            'hours': hours,
+            'minutes': minutes,
+            'seconds': seconds
         };
     }
 
@@ -65,16 +65,16 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function setClock(selector, endtime) {
-        const   timer = document.querySelector(selector),
-                days = timer.querySelector('#days'),
-                hours = timer.querySelector('#hours'),
-                minutes = timer.querySelector('#minutes'),
-                seconds = timer.querySelector('#seconds'),
-                endtimeText = document.querySelector('#endtime'),
-                timeInterval = setInterval(updateClock, 1000),
-                deadlineDate = new Date(endtime),
-                months = ['января' , 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября','ноября', 'декабря'];
-        
+        const timer = document.querySelector(selector),
+            days = timer.querySelector('#days'),
+            hours = timer.querySelector('#hours'),
+            minutes = timer.querySelector('#minutes'),
+            seconds = timer.querySelector('#seconds'),
+            endtimeText = document.querySelector('#endtime'),
+            timeInterval = setInterval(updateClock, 1000),
+            deadlineDate = new Date(endtime),
+            months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+
         updateClock();
 
         endtimeText.textContent = `Акция закончится ${getZero(deadlineDate.getDate())} ${months[deadlineDate.getMonth()]} в
@@ -102,21 +102,21 @@ window.addEventListener('DOMContentLoaded', () => {
 
     //modal
 
-    const   modalTrigger = document.querySelectorAll('[data-modal]'),
-            modal = document.querySelector('.modal');
-    
+    const modalTrigger = document.querySelectorAll('[data-modal]'),
+        modal = document.querySelector('.modal');
+
     function hideModal(itemModal = modal) {
         itemModal.classList.add('hide');
         itemModal.classList.remove('show');
         document.body.style.overflow = '';
-    } 
+    }
 
     function showModal(itemModal = modal) {
         itemModal.classList.add('show');
         itemModal.classList.remove('hide');
         document.body.style.overflow = 'hidden';
         //clearInterval(modalTimerId);
-    } 
+    }
 
     //hideModal(modal);
 
@@ -139,7 +139,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     const modalTimerId = setTimeout(showModal, 50000);
-    
+
     function showModalByScroll() {
         if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
             showModal(modal);
@@ -182,7 +182,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 this.element = 'menu__item';
                 element.classList.add(this.element);
             }
-            
+
             element.innerHTML = `
                         <img src=${this.src} alt=${this.alt}>
                         <h3 class="menu__item-subtitle">${this.title}</h3>
@@ -197,7 +197,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const getResource = async (url) => { 
+    const getResource = async (url) => {
         const res = await fetch(url);
 
         if (!res.ok) {
@@ -209,39 +209,39 @@ window.addEventListener('DOMContentLoaded', () => {
 
     getResource('http://localhost:3000/menu')
         .then(data => {
-            data.forEach(({img, altimg, title, descr, price}) => {
+            data.forEach(({ img, altimg, title, descr, price }) => {
                 new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
             });
         });
 
     // forms
 
-    const forms= document.querySelectorAll('form');
+    const forms = document.querySelectorAll('form');
 
     const message = {
-        loading : 'img/form/spinner.svg',
-        success : 'Спасибо мы с Вами свяжемся',
-        failure : 'Что-то пошло не так...'
+        loading: 'img/form/spinner.svg',
+        success: 'Спасибо мы с Вами свяжемся',
+        failure: 'Что-то пошло не так...'
     };
 
     forms.forEach(item => {
         bindPostData(item);
     });
 
-    const postData = async (url, data) => { 
+    const postData = async (url, data) => {
         const res = await fetch(url, {
-            method:'POST',
+            method: 'POST',
             headers: {
                 'Content-type': 'application/json'
             },
-            body : data
+            body: data
         });
 
         return await res.json();
     };
 
     function bindPostData(form) {
-        form.addEventListener('submit', (e)=> {
+        form.addEventListener('submit', (e) => {
             e.preventDefault();
 
             const statusmessage = document.createElement('img');
@@ -257,16 +257,16 @@ window.addEventListener('DOMContentLoaded', () => {
             const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
             postData('http://localhost:3000/requests', json)
-            .then((data) => {
-                console.log(data);
-                showThanksModal(message.success);
-                form.reset();
-                statusmessage.remove();
-            }).catch(() => {
-                showThanksModal(message.failure);
-            }).finally(() => {
-                form.reset();
-            });
+                .then((data) => {
+                    console.log(data);
+                    showThanksModal(message.success);
+                    form.reset();
+                    statusmessage.remove();
+                }).catch(() => {
+                    showThanksModal(message.failure);
+                }).finally(() => {
+                    form.reset();
+                });
         });
     }
 
@@ -288,7 +288,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         document.querySelector('.modal').append(thanksModal);
 
-        setTimeout(() =>{
+        setTimeout(() => {
             thanksModal.remove();
             prevModalDialog.classList.add('show');
             prevModalDialog.classList.remove('hide');
@@ -297,17 +297,18 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     // slider
 
-    const   slides = document.querySelectorAll('.offer__slide'),
-            prev = document.querySelector('.offer__slider-prev'),
-            next = document.querySelector('.offer__slider-next'),
-            total = document.querySelector('#total'),
-            current = document.querySelector('#current'),
-            slidesWrapper = document.querySelector('.offer__slider-wrapper'),
-            slidesField = document.querySelector('.offer__slider-inner'),
-            width = window.getComputedStyle(slidesWrapper).width;
+    const slides = document.querySelectorAll('.offer__slide'),
+        slider = document.querySelector('.offer__slider'),
+        prev = document.querySelector('.offer__slider-prev'),
+        next = document.querySelector('.offer__slider-next'),
+        total = document.querySelector('#total'),
+        current = document.querySelector('#current'),
+        slidesWrapper = document.querySelector('.offer__slider-wrapper'),
+        slidesField = document.querySelector('.offer__slider-inner'),
+        width = window.getComputedStyle(slidesWrapper).width;
 
-    let     slideIndex = 1,
-            offset = 0;
+    let slideIndex = 1,
+        offset = 0;
 
     if (slides.length < 10) {
         total.textContent = `0${slides.length}`;
@@ -330,8 +331,28 @@ window.addEventListener('DOMContentLoaded', () => {
         slide.style.width = width;
     });
 
+    slider.style.position = 'relative';
+
+    const indicators = document.createElement('ol'),
+        dots = [];
+
+    indicators.classList.add('carousel-indicators');
+
+    slider.append(indicators);
+
+    for (let i = 0; i < slides.length; i++) {
+        const dot = document.createElement('li');
+        dot.setAttribute('data-slide-to', i + 1);
+        dot.classList.add('dot');
+        if (i == 0) {
+            dot.style.opacity = 1;
+        }
+        indicators.append(dot);
+        dots.push(dot);
+    }
+
     next.addEventListener('click', () => {
-        if (offset == +width.slice(0, width.length - 2) * (slides.length - 1)){
+        if (offset == +width.slice(0, width.length - 2) * (slides.length - 1)) {
             offset = 0;
         } else {
             offset += +width.slice(0, width.length - 2);
@@ -350,11 +371,16 @@ window.addEventListener('DOMContentLoaded', () => {
         } else {
             current.textContent = slideIndex;
         }
+
+        dots.forEach(dot => {
+            dot.style.opacity = '0.5';
+            dots[slideIndex - 1].style.opacity = 1;
+        });
     });
 
     prev.addEventListener('click', () => {
-        if (offset == 0){
-            offset = +width.slice(0, width.length - 2) * (slides.length - 1); 
+        if (offset == 0) {
+            offset = +width.slice(0, width.length - 2) * (slides.length - 1);
         } else {
             offset -= +width.slice(0, width.length - 2);
         }
@@ -372,7 +398,36 @@ window.addEventListener('DOMContentLoaded', () => {
         } else {
             current.textContent = slideIndex;
         }
+
+        dots.forEach(dot => {
+            dot.style.opacity = '0.5';
+            dots[slideIndex - 1].style.opacity = 1;
+        });
     });
+
+    dots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+            const slideTo = e.target.getAttribute('data-slide-to');
+
+            slideIndex = slideTo;
+            offset = +width.slice(0, width.length - 2) * (slideTo - 1);
+
+            slidesField.style.transform = `translateX(-${offset}px)`;
+
+            if (slideIndex < 10) {
+                current.textContent = `0${slideIndex}`;
+            } else {
+                current.textContent = slideIndex;
+            }
+
+            dots.forEach(dot => {
+                dot.style.opacity = '0.5';
+                dots[slideIndex - 1].style.opacity = 1;
+            });
+        });
+    });
+
+
     // showSlides(slideIndex);
 
     // if (slides.length < 10) {
